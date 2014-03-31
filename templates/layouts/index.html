@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+                <link rel="apple-touch-icon-precomposed" href="/img/apple-touch-icon-precomposed.png">
+                <title>Variables - Plates</title>
+                <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
+                <link rel="stylesheet" href="/themes/thephpleague/thephpleague.github.com/css/all.css">
+    </head>
+<body>
+
+<section class="all_packages">
+    <a href="http://thephpleague.com/">
+        <img src="/themes/thephpleague/thephpleague.github.com/img/loep_logo.png" width="195" height="200" alt="The League of Extraordinary Packages">
+    </a>
+    <h2>Our Packages:</h2>
+    <ul>
+    </ul>
+</section>
+
+<header>
+    <a class="logo" href="/">
+                    <span class="icon">
+                <img src="/img/logo.png" width="50" height="40" alt="Plates - Native PHP Templates">
+            </span>
+                <span class="name">Plates</span>
+        <span class="tagline">Native PHP Templates</span>
+    </a>
+    <a href="http://thephpleague.com/" class="league">
+        Presented by The League of Extraordinary Packages
+    </a>
+</header>
+
+<input type="checkbox" id="menu">
+<label for="menu" onclick>
+    <div class="closed">&#9776; Menu</div>
+    <div class="open">&#9776; Hide Menu</div>
+</label>
+
+<main>
+    <menu>
+                    <h2>Getting Started</h2>
+            <ul>
+                                    <li >
+                        <a href="/">Introduction</a>
+                    </li>
+                                    <li >
+                        <a href="/simple-example/">Simple example</a>
+                    </li>
+                                    <li >
+                        <a href="/installation/">Installation</a>
+                    </li>
+                            </ul>
+                    <h2>The Engine</h2>
+            <ul>
+                                    <li >
+                        <a href="/engine/">Overview</a>
+                    </li>
+                                    <li >
+                        <a href="/engine/file-extensions/">File extensions</a>
+                    </li>
+                                    <li >
+                        <a href="/engine/folders/">Folders</a>
+                    </li>
+                            </ul>
+                    <h2>Templates</h2>
+            <ul>
+                                    <li >
+                        <a href="/templates/">Overview</a>
+                    </li>
+                                    <li >
+                        <a href="/templates/variables/">Variables</a>
+                    </li>
+                                    <li >
+                        <a href="/templates/nesting/">Nesting</a>
+                    </li>
+                                    <li class="selected">
+                        <a href="/templates/layouts/">Layouts</a>
+                    </li>
+                                    <li >
+                        <a href="/templates/sections/">Sections</a>
+                    </li>
+                                    <li >
+                        <a href="/templates/inheritance/">Inheritance</a>
+                    </li>
+                                    <li >
+                        <a href="/templates/syntax/">Syntax</a>
+                    </li>
+                            </ul>
+                    <h2>Extensions</h2>
+            <ul>
+                                    <li >
+                        <a href="/extensions/">Overview</a>
+                    </li>
+                                    <li >
+                        <a href="/extensions/escape/">Escape</a>
+                    </li>
+                                    <li >
+                        <a href="/extensions/batch/">Batch</a>
+                    </li>
+                                    <li >
+                        <a href="/extensions/uri/">URI</a>
+                    </li>
+                                    <li >
+                        <a href="/extensions/asset/">Asset</a>
+                    </li>
+                            </ul>
+            </menu>
+    <article>
+        <h1>Layouts</h1>
+
+<p>The <code>layout()</code> function allows you to define a layout template that a template will implement.</p>
+
+<h2>Defining a layout</h2>
+
+<pre><code class="language-php">&lt;?php $this-&gt;layout('template') ?&gt;
+
+&lt;?php $this-&gt;title = 'User Profile' ?&gt;
+
+&lt;h1&gt;User Profile&lt;/h1&gt;
+&lt;p&gt;Hello, &lt;?=$this-&gt;e($this-&gt;name)?&gt;&lt;/p&gt;
+</code></pre>
+
+<p>This function works with <a href="/engine/folders/">folders</a> as well:</p>
+
+<pre><code class="language-php">&lt;?php $this-&gt;insert('shared::template') ?&gt;
+</code></pre>
+
+<h2>Accessing the content</h2>
+
+<p>To access the rendered template content within the layout, use the <code>content()</code> function. This will return all outputted content from the template that hasn’t been defined in a <a href="/templates/sections/">section</a>.</p>
+
+<pre><code class="language-php">&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;&lt;?=$this-&gt;title?&gt;&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;?=$this-&gt;content()?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Note, prior to version 2.x, this was done using the <code>child()</code> function, will still exists as an alias.</p>
+
+<h2>Rendering order</h2>
+
+<p>The <code>layout()</code> function can be called anywhere in a template, since the layout is actually rendered after the template. This is helpful as you can assign variables in your template that will then be available when the layout is rendered. For example, a page title.</p>
+
+<h2>Stacked layouts</h2>
+
+<p>Added in version 2.x was the ability to stack layouts, allowing even further simplification and organization of templates. Instead of just using one main layout, you can now break templates into more defined layouts, which themselves implement the main layout. Consider this example:</p>
+
+<h3>The main site layout</h3>
+
+<pre><code class="language-php">&lt;!-- template.tpl --&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;&lt;?=$this-&gt;title?&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;?=$this-&gt;content()?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h3>The blog layout</h3>
+
+<pre><code class="language-php">&lt;!-- blog.tpl --&gt;
+
+&lt;?php $this-&gt;layout('template') ?&gt;
+
+&lt;h1&gt;The Blog&lt;/h1&gt;
+
+&lt;section&gt;
+    &lt;article&gt;
+        &lt;?=$this-&gt;content()?&gt;
+    &lt;/article&gt;
+    &lt;aside&gt;
+        &lt;?=$this-&gt;insert('blog-sidebar')?&gt;
+    &lt;/aside&gt;
+&lt;/section&gt;
+</code></pre>
+
+<h3>A blog article</h3>
+
+<pre><code class="language-php">&lt;!-- blog-article.tpl --&gt;
+
+&lt;?php $this-&gt;title = $this-&gt;article-&gt;title ?&gt;
+&lt;?php $this-&gt;layout('blog') ?&gt;
+
+&lt;h2&gt;&lt;?=$this-&gt;article-&gt;title?&gt;&lt;/h2&gt;
+&lt;?=$this-&gt;article-&gt;content?&gt;
+</code></pre>
+    </article>
+</main>
+
+<footer>
+    <span>&copy; Copyright The League of Extraordinary Packages.</span>
+    <span>Site design by <a href="http://reinink.ca">Jonathan Reinink</a>.</span>
+    <span>Powered by <a href="https://sculpin.io">Sculpin</a>.</span>
+</footer>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/themes/thephpleague/thephpleague.github.com/js/scripts.js"></script>
+<script src="/themes/thephpleague/thephpleague.github.com/js/prism.js"></script>
+
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-46050814-2');ga('send','pageview');
+    </script>
+
+</body>
+</html>
